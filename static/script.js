@@ -20,9 +20,9 @@ $(document).ready(e => {
   const code = document.getElementById("code");
   const stdin = document.getElementById("stdin");
   const args = document.getElementById("args");
-  const stdout = document.getElementById("stdout");
+  const outlabel = document.getElementById("outlabel");
+  const output = document.getElementById("output");
   const stderr = document.getElementById("stderr");
-  const cgcc = document.getElementById("cgcc");
   const run = document.getElementById("run");
   const session = parseInt([...$("data-session")][0].innerHTML);
   
@@ -49,7 +49,8 @@ $(document).ready(e => {
         args: args.value,
         session: session
       }, res => {
-        stdout.value = res.stdout;
+        outlabel.innerHTML = "STDOUT";
+        output.value = res.stdout;
         stderr.value = res.stderr;
         run.innerHTML = "RUN";
       });
@@ -63,15 +64,14 @@ $(document).ready(e => {
     code.value = values[0];
     stdin.value = values[1];
     args.value = values[2];
-    cgcc.value = format();
+    output.value = format();
   }
   
   u = () => {
     updateHeight(code);
     updateHeight(stdin);
     updateHeight(args);
-    updateHeight(cgcc);
-    updateHeight(stdout);
+    updateHeight(output);
     updateHeight(stderr);
     requestAnimationFrame(u);
   };
@@ -97,7 +97,14 @@ $(document).ready(e => {
   
   $("#link").on("click", e => {
     document.location = url();
-    cgcc.value = format();
-    updateHeight(cgcc);
+    outlabel.innerHTML = "Stack Exchange post format";
+    output.value = format();
+    updateHeight(output);
   });
+  
+  $("#inline").on("click", e => {
+    document.location = url();
+    outlabel.innerHTML = "Inline markdown format";
+    output.value = "[Try it online!](" + document.location + ")";
+  })
 });

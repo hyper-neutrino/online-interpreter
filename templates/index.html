@@ -18,40 +18,47 @@
   
   <body>
     <data-session>{{ session }}</data-session>
-    <div class="container">
-      <br />
-      <span style="font-size:200%">
-        <b>Branch</b> Esoteric Programming Language
-      </span>
-      <br /><br />
-      <span style="font-size:120%">
-        Welcome to the Branch interpreter! <a href="https://github.com/hyper-neutrino/branch-lang">Branch</a> is an esoteric programming language created by <a href="https://codegolf.stackexchange.com/users/68942/hyper-neutrino">hyper-neutrino</a>. It is inspired by other <a href="https://en.wikipedia.org/wiki/Turing_tarpit">Turing tarpits</a> like <a href="https://esolangs.org/wiki/Brainfuck">Brainfuck</a>, and its memory is based on a <a href="https://en.wikipedia.org/wiki/Binary_tree">binary tree</a>.
-      </span>
-      <br /><br /><br />
-      <b>Code</b>
-      <textarea id="code" class="input"></textarea>
-      <br /><br />
-      <b>STDIN</b>
-      <textarea id="stdin" class="input"></textarea>
-      <br /><br />
-      <b>Command Line Arguments (space separated integers)</b>
-      <textarea id="args" class="input"></textarea>
-      <br /><br />
-      <button id="run">
-        RUN
-      </button>
-      <button id="link">
-        LINK &amp; FORMAT CGCC
-      </button>
-      <br /><br /><br />
-      <b>STDOUT</b>
-      <textarea id="stdout" class="input wrap" readonly></textarea>
-      <br /><br />
-      <b>STDERR</b>
-      <textarea id="stderr" class="input wrap" readonly></textarea>
-      <br /><br />
-      <b>CGCC Submission</b>
-      <textarea id="cgcc" class="input wrap" readonly></textarea>
-    </div>
+    <main>
+      <div class="container">
+        <br />
+        <span style="font-size:200%">
+          <b>Branch</b> Esoteric Programming Language
+        </span>
+        <br /><br />
+        <span style="font-size:120%">
+          Welcome to the Branch interpreter! <a href="https://github.com/hyper-neutrino/branch-lang">Branch</a> is an esoteric programming language created by <a href="https://codegolf.stackexchange.com/users/68942/hyper-neutrino">hyper-neutrino</a>. It is inspired by other <a href="https://en.wikipedia.org/wiki/Turing_tarpit">Turing tarpits</a> like <a href="https://esolangs.org/wiki/Brainfuck">Brainfuck</a>, and its memory is based on a <a href="https://en.wikipedia.org/wiki/Binary_tree">binary tree</a>.
+        </span>
+        <br /><br /><br />
+        <b>Code</b>
+        <textarea id="code" class="input"></textarea>
+        <br /><br />
+        <b>STDIN</b>
+        <textarea id="stdin" class="input"></textarea>
+        <br /><br />
+        <b>Command Line Arguments (space separated integers)</b>
+        <textarea id="args" class="input"></textarea>
+        <br /><br />
+        <button id="run">
+          RUN
+        </button>
+        <button id="link">
+          LINK &amp; FORMAT SE MD
+        </button>
+        <button id="inline">
+          LINK &amp; FORMAT INLINE MD
+        </button>
+        <br /><br /><br />
+        <b id="outlabel">Stack Exchange post format</b>
+        <textarea id="output" class="input wrap" readonly></textarea>
+        <br /><br />
+        <b>STDERR</b>
+        <textarea id="stderr" class="input wrap" readonly></textarea>
+      </div>
+    </main>
+    <footer>
+      <div class="container">
+        &copy;&nbsp;2021 Alexander Liao - MIT License - <a href="/https://github.com/hyper-neutrino/branch-server">Source Code</a>
+      </div>
+    </footer>
   </body>
 </html>
