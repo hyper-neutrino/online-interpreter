@@ -3,30 +3,31 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="Branch Interpreter by HyperNeutrino" />
-    <meta name="keywords" content="Alexander Liao, Alex Liao, HyperNeutrino, Branch" />
+    <meta name="description" content="{{ lang }} Interpreter by HyperNeutrino" />
+    <meta name="keywords" content="Alexander Liao, Alex Liao, HyperNeutrino, {{ lang }}" />
     <meta name="author" content="Alexander Liao" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
     <script src="/static/script.js"></script>
     <link rel="stylesheet" href="/static/style.css" />
-    <link rel="shortcut icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="/static/favicon-{{ lang }}.png" type="image/x-icon" />
     
-    <title>Branch [HN]</title>
+    <title>{{ lang }} [HN]</title>
   </head>
   
   <body>
-    <data-session>{{ session }}</data-session>
+    <data-session hidden>{{ session }}</data-session>
+    <data-lang hidden>{{ lang }}</data-lang>
     <main>
       <div class="container">
         <br />
         <span style="font-size:200%">
-          <b>Branch</b> Esoteric Programming Language
+          <b>{{ name }}</b> {{ title }}
         </span>
         <br /><br />
         <span style="font-size:120%">
-          Welcome to the Branch interpreter! <a href="https://github.com/hyper-neutrino/branch-lang">Branch</a> is an esoteric programming language created by <a href="https://codegolf.stackexchange.com/users/68942/hyper-neutrino">hyper-neutrino</a>. It is inspired by other <a href="https://en.wikipedia.org/wiki/Turing_tarpit">Turing tarpits</a> like <a href="https://esolangs.org/wiki/Brainfuck">Brainfuck</a>, and its memory is based on a <a href="https://en.wikipedia.org/wiki/Binary_tree">binary tree</a>.
+          <a href="/">&lt; return to language list</a>
         </span>
         <br /><br /><br />
         <b>Code</b>
@@ -35,9 +36,14 @@
         <b>STDIN</b>
         <textarea id="stdin" class="input"></textarea>
         <br /><br />
-        <b>Command Line Arguments (space separated integers)</b>
+        <b>Command Line Arguments (newline-separated)</b>
         <textarea id="args" class="input"></textarea>
         <br /><br />
+        {%- if lang in ["yuno", "flurry"] -%}
+          <b>Flag</b>
+          <textarea id="flag" class="input"></textarea>
+          <br /><br />
+        {%- endif -%}
         <button id="run">
           RUN
         </button>
@@ -57,7 +63,7 @@
     </main>
     <footer>
       <div class="container">
-        &copy;&nbsp;2021 Alexander Liao - MIT License - <a href="/https://github.com/hyper-neutrino/branch-server">Source Code</a>
+        &copy;&nbsp;2021 Alexander Liao - MIT License - <a href="https://github.com/hyper-neutrino/online-interpreter">Source Code</a>
       </div>
     </footer>
   </body>

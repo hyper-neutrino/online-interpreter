@@ -5,7 +5,7 @@ from flask_cors import CORS
 
 from urllib.parse import unquote
 
-app = Flask("__branch__")
+app = Flask("__tio__")
 CORS(app)
 
 import os
@@ -16,10 +16,14 @@ sessions = {}
 term = set()
 
 @app.route("/")
-def serve_root(code = "", stdin = "", args = ""):
+def serve_root():
+  return render_template("launch.html")
+
+@app.route("/<lang>/")
+def serve_lang(lang):
   session = random.randint(1, 2 ** 30)
   sessions[session] = None
-  return render_template("index.html", session = session)
+  return render_template("index.html", session = session, lang = lang, name = {"branch": "Branch", "yuno": "yuno", "flurry": "Flurry"}[lang], title = {"branch": "Esoteric Programming Language", "yuno": "golfing language", "flurry": "Esoteric Programming Language"}[lang])
 
 @app.route("/kill", methods = ["POST"])
 def kill():
@@ -29,10 +33,11 @@ def kill():
   term.add(session)
   return ""
 
-@app.route("/execute", methods = ["POST"])
-def execute():
+@app.route("/<lang>/execute", methods = ["POST"])
+def execute(lang):
   try:
     code, stdin, args, session = [html.unescape(request.form[x]) for x in ["code", "stdin", "args", "session"]]
+    flag = [request.form["flag"]] if "flag" in request.form else []
     session = int(session)
     if session not in sessions:
       return {"stdout": "", "stderr": "The session was invalid! You may need to reload your tab."}
@@ -44,7 +49,9 @@ def execute():
       with open(f"sessions/{session}/.stdout", "w") as y:
         with open(f"sessions/{session}/.stderr", "w") as z:
           try:
-            sessions[session] = subprocess.Popen(["time", "-f", "Total time    %E\nUser Mode     %U\nKernel Mode   %S\nCPU           %P", "../branch-lang/branch", "-m", "131072", "131072", code, *args.split()], stdin = x, stdout = y, stderr = z)
+            cmd = {"branch": (["../branch-lang/branch", "-m", "131072", "131072"], []), "yuno": (["../yuno/yuno"], []), "flurry": (["../flurry/Flurry"], ["-c"])}
+            args = args.split("\n") if args else []
+            sessions[session] = subprocess.Popen(["time", "-f", "Total time    %E\nUser Mode     %U\nKernel Mode   %S\nCPU           %P", *cmd[lang][0], *flag, *cmd[lang][1], code, *args], stdin = x, stdout = y, stderr = z)
             sessions[session].wait(timeout = 60)
             pf = ""
           except subprocess.TimeoutExpired:

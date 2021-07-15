@@ -17,6 +17,7 @@ function updateHeight(element) {
 
 $(document).ready(e => {
   $(".wrap").on("keydown", e => e.ctrlKey && e.keyCode != 86 || e.metaKey || e.keyCode == 9 ? "" : e.preventDefault()).on("paste", e => e.preventDefault()).on("cut", e => e.preventDefault());
+  const flag = document.getElementById("flag");
   const code = document.getElementById("code");
   const stdin = document.getElementById("stdin");
   const args = document.getElementById("args");
@@ -25,17 +26,34 @@ $(document).ready(e => {
   const stderr = document.getElementById("stderr");
   const run = document.getElementById("run");
   const session = parseInt([...$("data-session")][0].innerHTML);
+  const lang = [...$("data-lang")][0].innerHTML;
+  const name = {
+    "branch": "Branch",
+    "yuno": "yuno",
+    "flurry": "Flurry"
+  };
+  const gh = {
+    "branch": "https://github.com/hyper-neutrino/branch-lang/",
+    "yuno": "https://github.com/hyper-neutrino/yuno/",
+    "flurry": "https://github.com/Reconcyl/flurry/"
+  };
   
   function url() {
-    return "https://branch.hyper-neutrino.xyz/#" + encode([code.value, stdin.value, args.value]);
+    var items = [code.value, stdin.value, args.value];
+    if (flag) items.push(flag.value);
+    return "https://interp.hyper-neutrino.xyz/" + lang + "/#" + encode(items);
   }
   
   function format() {
-    return "# [Branch](https://github.com/hyper-neutrino/branch-lang/), " +
+    var a = "";
+    if (flag && flag.value) {
+      a = " `" + flag.value + "`";
+    }
+    return "# [" + name[lang] + "](" + gh[lang] + ")" + a + ", " +
       code.value.length +
-      " bytes\n\n" +
+      " byte" + (code.value.length == 1 ? "" : "s") + "\n\n" +
       code.value.split("\n").map(a => "    " + a).join("\n") +
-      "\n\nTry it on the [online Branch interpreter](" +
+      "\n\nTry it on the [online " + name[lang] + " interpreter](" +
       url() +
       ")!";
   }
@@ -43,12 +61,14 @@ $(document).ready(e => {
   function do_run() {
     if (run.innerHTML.trim() == "RUN") {
       run.innerHTML = "STOP";
-      $.post("/execute", {
+      var form = {
         code: code.value,
         stdin: stdin.value,
         args: args.value,
         session: session
-      }, res => {
+      };
+      if (flag) form.flag = flag.value;
+      $.post("execute", form, res => {
         outlabel.innerHTML = "STDOUT";
         output.value = res.stdout;
         stderr.value = res.stderr;
@@ -64,6 +84,9 @@ $(document).ready(e => {
     code.value = values[0];
     stdin.value = values[1];
     args.value = values[2];
+    if (flag) {
+      flag.value = values[3];
+    }
     output.value = format();
   }
   
@@ -71,6 +94,7 @@ $(document).ready(e => {
     updateHeight(code);
     updateHeight(stdin);
     updateHeight(args);
+    if (flag) updateHeight(flag);
     updateHeight(output);
     updateHeight(stderr);
     requestAnimationFrame(u);
